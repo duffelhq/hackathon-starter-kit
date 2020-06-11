@@ -99,7 +99,9 @@ To do this, just pass in the ID of the offer you selected, some basic informatio
 
 We've created a [Postman](https://www.postman.com/) collection to make it easy to get started with the API.
 
-To start using it, open Postman, click "Import", then "Link", paste `https://github.com/duffelhq/hackathon-starter-kit/raw/master/assets/duffel-api.postman_collection.json` into the box and then click "Continue".
+To download it, click [here](https://github.com/duffelhq/hackathon-starter-kit/raw/master/assets/duffel-api.postman_collection.json) and then save the file to your computer.
+
+To import it into Postman, open Postman, click "Import" and then "Upload Files", and then browse to the file that you just saved. The "Duffel API" collection will appear in the sidebar.
 
 To set your access token for the API, find the "Duffel API" collection in the sidebar, hover over it and click the "..." button, then click "Edit", then head to the "Variables" tab, and fill in your access token in the `current_value` column.
 
