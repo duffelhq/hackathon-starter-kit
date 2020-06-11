@@ -1,0 +1,361 @@
+{
+	"info": {
+		"_postman_id": "509bdf17-1d47-4272-9b3f-cfafee236725",
+		"name": "Duffel API",
+		"description": "We offer the most powerful and intuitive tools for starting and growing a travel business. Search, book, and manage flights across more than 20 airlines. All through one single platform.\n\nTo get access to the API, you'll need to sign up for a Duffel account. You can sign up in 30 seconds at <https://app.duffel.com/join>.\n\nNext, head to the \"Developers\" section in your [dashboard](https://app.duffel.com) to create your first access token so you can start using the API. You'll want to create a \"read write\" token.\n\nTo set up your token, click the \"...\" next to this collection, then click \"Edit\", then click \"Variables\", and then fill in your access token in the \"Current Value\" column. To save, click the orange \"Update\" button.\n\nYou'll start off in our *test mode*, a \"sandbox\" where you can use the Duffel API risk-free, with no danger of spending any money or booking flights you don't want.\n\nIf you run through then requests in order, we'll automatically fill in the right values so you can test the Duffel API end-to-end. For API documentation, head to <https://duffel.com/docs/api/overview/welcome>.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Search for flights by creating an Offer Request (one-way)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5de23c7-2617-44fd-8f15-1a883cdd8e5c",
+						"exec": [
+							"const parsedResponse = pm.response.json();",
+							"const offers = parsedResponse.data.offers;",
+							"",
+							"const duffelAirwaysOffer = offers.find(offer => offer.owner.iata_code == \"ZZ\");",
+							"",
+							"const offer = duffelAirwaysOffer || offers[0];",
+							"",
+							"const offerId = offer.id;",
+							"const offerTotalAmount = offer.total_amount;",
+							"const offerTotalCurrency = offer.total_currency;",
+							"const passengerId = parsedResponse.data.passengers[0].id;",
+							"",
+							"pm.globals.set(\"offer_id\", offerId);",
+							"pm.globals.set(\"offer_total_amount\", offerTotalAmount);",
+							"pm.globals.set(\"offer_total_currency\", offerTotalCurrency);",
+							"pm.globals.set(\"passenger_id\", passengerId);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Duffel-Version",
+						"value": "beta",
+						"type": "text"
+					},
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Encoding",
+						"value": "application/gzip",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"passengers\": [\n\t\t\t{\n\t\t\t\t\"type\": \"adult\"\n\t\t\t}\n\t\t],\n\t\t\"slices\": [\n\t\t\t{\n\t\t\t\t\"origin\": \"LON\",\n\t\t\t\t\"destination\": \"DFW\",\n\t\t\t\t\"departure_date\": \"2020-10-01\"\n\t\t\t}\t\n\t\t],\n\t\t\"cabin_class\": \"economy\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://api.duffel.com/air/offer_requests",
+					"protocol": "https",
+					"host": [
+						"api",
+						"duffel",
+						"com"
+					],
+					"path": [
+						"air",
+						"offer_requests"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Book flights by creating an order (based on your last search)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a68baba6-d02c-4dee-af9a-4e3f193af5a4",
+						"exec": [
+							"const parsedResponse = pm.response.json();",
+							"",
+							"pm.globals.set(\"order_id\", parsedResponse.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Duffel-Version",
+						"type": "text",
+						"value": "beta"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Encoding",
+						"type": "text",
+						"value": "gzip"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"selected_offers\": [\"{{offer_id}}\"],\n\t\t\"passengers\": [\n\t\t\t{\n\t\t\t\t\"id\": \"{{passenger_id}}\",\n\t\t\t\t\"given_name\": \"Tony\",\n        \t\t\"family_name\": \"Stark\",\n        \t\t\"born_on\": \"1970-01-01\",\n        \t\t\"title\": \"mr\",\n        \t\t\"gender\": \"m\",\n        \t\t\"email\": \"tony@example.com\",\n        \t\t\"phone_number\": \"+12123456789\"\n\t\t\t}\t\n\t\t],\n\t\t\"payments\": [\n\t\t\t{\n\t\t\t\t\"type\": \"balance\",\n\t\t\t\t\"amount\": \"{{offer_total_amount}}\",\n\t\t\t\t\"currency\": \"{{offer_total_currency}}\"\n\t\t\t}\t\n\t\t]\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://api.duffel.com/air/orders",
+					"protocol": "https",
+					"host": [
+						"api",
+						"duffel",
+						"com"
+					],
+					"path": [
+						"air",
+						"orders"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve your order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "c8698ac1-d613-430b-b9f0-1aa0576797f2",
+						"exec": [
+							"const parsedResponse = pm.response.json();",
+							"",
+							"pm.globals.set(\"order_id\", parsedResponse.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json",
+						"disabled": true
+					},
+					{
+						"key": "Duffel-Version",
+						"type": "text",
+						"value": "beta"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Encoding",
+						"type": "text",
+						"value": "gzip"
+					}
+				],
+				"url": {
+					"raw": "https://api.duffel.com/air/orders/{{order_id}}",
+					"protocol": "https",
+					"host": [
+						"api",
+						"duffel",
+						"com"
+					],
+					"path": [
+						"air",
+						"orders",
+						"{{order_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get a refund quote for your order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9a5dff69-4631-4d58-aae4-030c63511b39",
+						"exec": [
+							"const parsedResponse = pm.response.json();",
+							"",
+							"pm.globals.set(\"order_cancellation_id\", parsedResponse.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Duffel-Version",
+						"type": "text",
+						"value": "beta"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Encoding",
+						"type": "text",
+						"value": "gzip"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"order_id\": \"{{order_id}}\"\n\t}\n}"
+				},
+				"url": {
+					"raw": "https://api.duffel.com/air/order_cancellations",
+					"protocol": "https",
+					"host": [
+						"api",
+						"duffel",
+						"com"
+					],
+					"path": [
+						"air",
+						"order_cancellations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Confirm order cancellation",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5eb3d301-f180-43d9-92c7-fbcea3e13f06",
+						"exec": [
+							"const parsedResponse = pm.response.json();",
+							"",
+							"pm.globals.set(\"order_id\", parsedResponse.data.id);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Duffel-Version",
+						"type": "text",
+						"value": "beta"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/json"
+					},
+					{
+						"key": "Accept-Encoding",
+						"type": "text",
+						"value": "gzip"
+					}
+				],
+				"url": {
+					"raw": "https://api.duffel.com/air/order_cancellations/{{order_cancellation_id}}/actions/confirm",
+					"protocol": "https",
+					"host": [
+						"api",
+						"duffel",
+						"com"
+					],
+					"path": [
+						"air",
+						"order_cancellations",
+						"{{order_cancellation_id}}",
+						"actions",
+						"confirm"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{accessToken}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "190f1b91-5dbf-4b54-b780-16971c4baa15",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "587d5178-5436-4d31-946d-e730ecd9d0b1",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "7a3896aa-c051-4c35-beaa-18b56015bbd1",
+			"key": "accessToken",
+			"value": "",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}

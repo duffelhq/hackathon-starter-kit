@@ -1,4 +1,4 @@
-![Duffel](https://i.imgur.com/W50QTZp.png)
+![Duffel](https://i.imgur.com/ybicLCu.png)
 
 # Getting started with the Duffel API
 
@@ -51,6 +51,8 @@ With Duffel, today you can book with:
 * Vueling
 * WestJet
 
+When you sign up, you'll only have access to a few airlines. For access to more, just [get in touch with us](#help-).
+
 ## Getting started
 
 To use the Duffel API, you'll need to sign up for an account and then create an access token.
@@ -97,7 +99,11 @@ To do this, just pass in the ID of the offer you selected, some basic informatio
 
 We've created a [Postman](https://www.postman.com/) collection to make it easy to get started with the API.
 
-To start using it, open Postman, click "Import", then "Link", paste `` into the box and then click "Continue".
+To start using it, open Postman, click "Import", then "Link", paste `https://github.com/duffelhq/hackathon-starter-kit/raw/master/assets/duffel-api.postman_collection.json` into the box and then click "Continue".
+
+To set your access token for the API, find the "Duffel API" collection in the sidebar, hover over it and click the "..." button, then click "Edit", then head to the "Variables" tab, and fill in your access token in the `current_value` column.
+
+You can now run through the requests in the collection one-by-one to search, book and cancel your first order.
 
 ## Help!
 
