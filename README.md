@@ -1,8 +1,8 @@
 ![Duffel](https://i.imgur.com/ybicLCu.png)
 
-# Getting started with the Duffel API
+# Getting started with the Duffel API ✈️
 
-So, you're at a hackathon and want the fastest and easiest way to search and book flights? Duffel is the tool for you.
+So, you're at a hackathon and want the fastest and easiest way to search and book flights? 🎉 Duffel is the tool for you.
 
 In this guide, you'll find everything you need to get started.
 
@@ -17,7 +17,7 @@ In this guide, you'll find everything you need to get started.
   * [First steps](#first-steps)
   * [Searching for flights](#searching-for-flights)
   * [Creating an order](#creating-an-order)
-- [Help!](#help-)
+- [Help!](#help)
 
 ## Introduction
 
@@ -51,7 +51,7 @@ With Duffel, today you can book with:
 * Vueling
 * WestJet
 
-When you sign up, you'll only have access to a few airlines. For access to more, just [get in touch with us](#help-).
+When you sign up, you'll only have access to a few airlines. For access to more, just [get in touch with us](#help).
 
 ## Getting started
 
@@ -93,6 +93,8 @@ Inside the offers, you'll see your slices, but now each slice will also include 
 
 Once you've found an offer that you want to book, you'll need to [create an order](https://duffel.com/docs/api/orders/create-order).
 
+Airlines' sandboxes can be a bit unreliable when you try to book, so we would recommend picking an offer from [Duffel Airways](https://duffel.com/docs/api/overview/test-mode/duffel-airways), our own sandbox airline, when you book. To get an offer back from Duffel Airways, you'll have to search for one adult flying from `LHR` to `JFK`.
+
 To do this, just pass in the ID of the offer you selected, some basic information about the passengers and your payment information. In our sandbox, you can pay using your Duffel Balance - it's unlimited 🎉
 
 ## Experimenting with the API in Postman
@@ -103,9 +105,9 @@ To download it, click [here](https://github.com/duffelhq/hackathon-starter-kit/r
 
 To import it into Postman, open Postman, click "Import" and then "Upload Files", and then browse to the file that you just saved. The "Duffel API" collection will appear in the sidebar.
 
-To set your access token for the API, find the "Duffel API" collection in the sidebar, hover over it and click the "..." button, then click "Edit", then head to the "Variables" tab, and fill in your access token in the `current_value` column.
+To set your access token for the API, find the "Duffel API" collection in the sidebar, hover over it and click the "..." button, then click "Edit", then head to the "Variables" tab, and fill in your access token in the `Current Value` column.
 
-You can now run through the requests in the collection one-by-one to search, book and cancel your first order.
+You can now run through the requests in the collection one-by-one to search, book and cancel your first order. We'll automatically pick an offer for you from [Duffel Airways](https://duffel.com/docs/api/overview/test-mode/duffel-airways) to make sure you have a great experience.
 
 ## Help!
 
