@@ -57,6 +57,8 @@ When you sign up, you'll only have access to a few airlines. For access to more,
 
 To use the Duffel API, you'll need to sign up for an account and then create an access token.
 
+If you prefer to watch a video, you can watch a short 8 minute workshop on the Duffel API on YouTube [here](https://www.youtube.com/watch?v=-g5qCuEWWeQ&feature=youtu.be).
+
 ### Signing up
 
 You can sign up for an account on the Duffel website - it takes about one minute.
